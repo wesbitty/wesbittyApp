@@ -1,11 +1,11 @@
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GitHubProvider from "next-auth/providers/github";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import NextAuth from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
+import GitHubProvider from 'next-auth/providers/github'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
-import { verifyPassword, hashPassword } from "@lib/auth/passwords";
-import { Session } from "@lib/auth/session";
-import prisma from "wesbitty/database/index";
+import { verifyPassword, hashPassword } from '@components/auth/passwords'
+import { Session } from '@components/auth/session'
+import prisma from 'wesbitty/database/index'
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -14,7 +14,7 @@ export default NextAuth({
     jwt: true,
   },
   pages: {
-    signIn: "/sign-in",
+    signIn: '/sign-in',
     // signOut: "/auth/logout",
     // error: "/auth/error", // Error code passed in query string as ?error=
   },
@@ -24,18 +24,18 @@ export default NextAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
     }),
     CredentialsProvider({
-      id: "app-login",
-      name: "App Login",
+      id: 'app-login',
+      name: 'App Login',
       credentials: {
         email: {
-          label: "Email Address",
-          type: "email",
-          placeholder: "john.doe@example.com",
+          label: 'Email Address',
+          type: 'email',
+          placeholder: 'john.doe@example.com',
         },
         password: {
-          label: "Password",
-          type: "password",
-          placeholder: "Your super secure password",
+          label: 'Password',
+          type: 'password',
+          placeholder: 'Your super secure password',
         },
       },
       async authorize(credentials) {
@@ -51,11 +51,11 @@ export default NextAuth({
               name: true,
               role: true,
             },
-          });
+          })
 
           if (!maybeUser) {
             if (!credentials.password || !credentials.email) {
-              throw new Error("Invalid Credentials");
+              throw new Error('Invalid Credentials')
             }
 
             maybeUser = await prisma.user.create({
@@ -70,15 +70,12 @@ export default NextAuth({
                 name: true,
                 role: true,
               },
-            });
+            })
           } else {
-            const isValid = await verifyPassword(
-              credentials.password,
-              maybeUser.password
-            );
+            const isValid = await verifyPassword(credentials.password, maybeUser.password)
 
             if (!isValid) {
-              throw new Error("Invalid Credentials");
+              throw new Error('Invalid Credentials')
             }
           }
 
@@ -87,26 +84,26 @@ export default NextAuth({
             email: maybeUser.email,
             name: maybeUser.name,
             role: maybeUser.role,
-          };
+          }
         } catch (error) {
-          console.log(error);
-          throw error;
+          console.log(error)
+          throw error
         }
       },
     }),
     CredentialsProvider({
-      id: "admin-login",
-      name: "Administrator Login",
+      id: 'admin-login',
+      name: 'Administrator Login',
       credentials: {
         email: {
-          label: "Email Address",
-          type: "email",
-          placeholder: "john.doe@example.com",
+          label: 'Email Address',
+          type: 'email',
+          placeholder: 'john.doe@example.com',
         },
         password: {
-          label: "Password",
-          type: "password",
-          placeholder: "Your super secure password",
+          label: 'Password',
+          type: 'password',
+          placeholder: 'Your super secure password',
         },
       },
       async authorize(credentials) {
@@ -121,23 +118,20 @@ export default NextAuth({
             name: true,
             role: true,
           },
-        });
+        })
 
         if (!maybeUser) {
-          throw new Error("Unauthorized.");
+          throw new Error('Unauthorized.')
         }
 
-        if (maybeUser?.role !== "admin") {
-          throw new Error("Unauthorized.");
+        if (maybeUser?.role !== 'admin') {
+          throw new Error('Unauthorized.')
         }
 
-        const isValid = await verifyPassword(
-          credentials.password,
-          maybeUser.password
-        );
+        const isValid = await verifyPassword(credentials.password, maybeUser.password)
 
         if (!isValid) {
-          throw new Error("Invalid Credentials");
+          throw new Error('Invalid Credentials')
         }
 
         return {
@@ -145,24 +139,24 @@ export default NextAuth({
           email: maybeUser.email,
           name: maybeUser.name,
           role: maybeUser.role,
-        };
+        }
       },
     }),
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      return true;
+      return true
     },
     async redirect({ url, baseUrl }) {
-      return url.startsWith(baseUrl) ? url : baseUrl;
+      return url.startsWith(baseUrl) ? url : baseUrl
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (user) {
-        token.id = user.id;
-        token.role = user.role;
+        token.id = user.id
+        token.role = user.role
       }
 
-      return token;
+      return token
     },
     async session({ session, token, user }) {
       const sess: Session = {
@@ -172,9 +166,9 @@ export default NextAuth({
           id: token.id as string,
           role: token.role as string,
         },
-      };
+      }
 
-      return sess;
+      return sess
     },
   },
-});
+})

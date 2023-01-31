@@ -1,15 +1,15 @@
-import AppLayout from "@lib/components/Layouts/AppLayout";
-import { useSession } from "next-auth/react";
+import AppLayout from '@components/Layouts/AppLayout'
+import { useSession } from 'next-auth/react'
 
 const Page = () => {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
   return (
     <>
       <AppLayout title="Server Redirect">
         <div>
           <h1>
-            Hello, {`${session.user.name ?? session.user.email}`} This is a
-            protected route. You can see it because you're logged in.
+            Hello, {`${session.user.name ?? session.user.email}`} This is a protected route. You can
+            see it because you're logged in.
           </h1>
         </div>
         <blockquote>
@@ -19,11 +19,11 @@ const Page = () => {
         </blockquote>
       </AppLayout>
     </>
-  );
-};
+  )
+}
 
 Page.auth = {
-  redirectTo: "/",
-};
+  redirectTo: '/',
+}
 
-export default Page;
+export default Page

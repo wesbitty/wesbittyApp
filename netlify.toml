@@ -1,6 +1,6 @@
 [build]
-command = "npm run generate:app && npm run build"
-publish = ".next"
+command = "npm run build:app"
+publish = ".next/standalone"
 
 [[plugins]]
 package = "@netlify/plugin-nextjs"

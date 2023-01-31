@@ -1,57 +1,54 @@
-import { getCsrfToken, signIn } from "next-auth/react";
-import { GetServerSidePropsContext } from "next";
-import Head from "next/head";
-import React from "react";
-import { useForm } from "react-hook-form";
-import superagent from "superagent";
+import { getCsrfToken, signIn } from 'next-auth/react'
+import { GetServerSidePropsContext } from 'next'
+import Head from 'next/head'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import superagent from 'superagent'
+import prisma from 'wesbitty/database'
 
-import prisma from "wesbitty/database";
-
-const MINIMUM_ACTIVITY_TIMEOUT = 850;
+const MINIMUM_ACTIVITY_TIMEOUT = 850
 type LoginFormValues = {
-  csrfToken: string;
-  email: string;
-  password: string;
-};
+  csrfToken: string
+  email: string
+  password: string
+}
 
 export default function Page({ csrfToken }) {
-  const [isSubmitting, setSubmitting] = React.useState(false);
+  const [isSubmitting, setSubmitting] = React.useState(false)
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm()
 
   const createAdminAccountHandler = async (data: LoginFormValues) => {
-    const response = await superagent
-      .post("/api/auth/administrator/create")
-      .send({
-        csrfToken: data.csrfToken,
-        email: data.email,
-        password: data.password,
-      });
+    const response = await superagent.post('/api/auth/administrator/create').send({
+      csrfToken: data.csrfToken,
+      email: data.email,
+      password: data.password,
+    })
 
-    return response.body;
-  };
+    return response.body
+  }
   const onSubmit = async (data: LoginFormValues) => {
-    setSubmitting(true);
+    setSubmitting(true)
     try {
       createAdminAccountHandler(data)
         .then((response) => {
-          signIn("admin-login", {
-            callbackUrl: "/admin",
+          signIn('admin-login', {
+            callbackUrl: '/admin',
             email: data.email,
             password: data.password,
-          });
+          })
         })
-        .catch((error) => {});
+        .catch((error) => {})
 
       setTimeout(() => {
-        setSubmitting(false);
-      }, MINIMUM_ACTIVITY_TIMEOUT);
+        setSubmitting(false)
+      }, MINIMUM_ACTIVITY_TIMEOUT)
     } catch (error) {
-      console.error(error);
+      console.error(error)
       //   setError(error)
-      setSubmitting(false);
+      setSubmitting(false)
     }
-  };
+  }
 
   return (
     <div className="min-h-screen  flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -60,11 +57,7 @@ export default function Page({ csrfToken }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center py-12">
-        <img
-          className="h-16 mx-auto"
-          src="/assets/planet-scale.svg"
-          alt="PlanetScale Logo"
-        />
+        <img className="h-16 mx-auto" src="/assets/planet-scale.svg" alt="PlanetScale Logo" />
       </div>
       <div className=" flex flex-col justify-center py-12 sm:px-6 lg:px-8 mt-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md text-center ">
@@ -76,16 +69,13 @@ export default function Page({ csrfToken }) {
             <form className=" text-center " onSubmit={handleSubmit(onSubmit)}>
               <input
                 name="csrfToken"
-                {...register("csrfToken")}
+                {...register('csrfToken')}
                 type="hidden"
                 defaultValue={csrfToken}
                 hidden
               />
               <div className="">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-neutral-400"
-                >
+                <label htmlFor="email" className="block text-sm font-medium text-neutral-400">
                   Email address
                 </label>
                 <div className="mt-1">
@@ -95,7 +85,7 @@ export default function Page({ csrfToken }) {
                     type="email"
                     autoComplete="email"
                     required
-                    {...register("email")}
+                    {...register('email')}
                     className="appearance-none w-full font-medium py-3 border-b border-t-0 border-l-0 border-r-0 border-dashed outline-none text-xl text-center leading-6 bg-transparent placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 transition duration-150 ease-in-out"
                   />
                 </div>
@@ -103,10 +93,7 @@ export default function Page({ csrfToken }) {
 
               <div>
                 <div className="mt-8">
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium text-neutral-400"
-                  >
+                  <label htmlFor="password" className="block text-sm font-medium text-neutral-400">
                     Password
                   </label>
                 </div>
@@ -118,7 +105,7 @@ export default function Page({ csrfToken }) {
                     autoComplete="current-password"
                     minLength={12}
                     required
-                    {...register("password")}
+                    {...register('password')}
                     className="appearance-none w-full font-medium py-3 border-b border-t-0 border-l-0 border-r-0 border-dashed outline-none text-xl text-center leading-6 bg-transparent placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 transition duration-150 ease-in-out"
                   />
                 </div>
@@ -130,11 +117,7 @@ export default function Page({ csrfToken }) {
                   disabled={isSubmitting}
                   className="button button__round button__md button__primary w-full"
                 >
-                  {isSubmitting ? (
-                    <img src="/assets/loading.svg" />
-                  ) : (
-                    <p>Create Account</p>
-                  )}
+                  {isSubmitting ? <img src="/assets/loading.svg" /> : <p>Create Account</p>}
                 </button>
               </div>
             </form>
@@ -142,25 +125,25 @@ export default function Page({ csrfToken }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const maybeAdministrator = await prisma.user.findFirst({
     where: {
-      role: "admin",
+      role: 'admin',
     },
-  });
+  })
 
   if (maybeAdministrator) {
     return {
       redirect: {
-        destination: "/",
+        destination: '/',
         permanent: false,
       },
-    };
+    }
   }
   return {
     props: { csrfToken: await getCsrfToken({ req: context.req }) },
-  };
+  }
 }

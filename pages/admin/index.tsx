@@ -1,36 +1,36 @@
-import { useQuery } from "react-query";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { ChevronRightIcon } from "@heroicons/react/solid";
-import { GetServerSidePropsContext } from "next";
-import classNames from "classnames";
-import AdminLayout from "@lib/components/Layouts/AdminLayout";
-import { getSession } from "@lib/auth/session";
-import superagent from "superagent";
+import { useQuery } from 'react-query'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { ChevronRightIcon } from '@heroicons/react/solid'
+import { GetServerSidePropsContext } from 'next'
+import classNames from 'classnames'
+import AdminLayout from '@components/Layouts/AdminLayout'
+import { getSession } from '@components/auth/session'
+import superagent from 'superagent'
 
 const statusStyles = {
-  true: "bg-green-100 text-green-800",
-  false: "bg-gray-100 text-gray-800",
-};
+  true: 'bg-green-100 text-green-800',
+  false: 'bg-gray-100 text-gray-800',
+}
 
 function Page() {
-  const router = useRouter();
+  const router = useRouter()
   const {
     status,
     data: { session },
   } = useSession({
     required: true,
     onUnauthenticated() {
-      router.push("/", "/", {});
+      router.push('/', '/', {})
     },
-  });
+  })
 
-  if (status === "loading") {
-    return "Loading or not authenticated...";
+  if (status === 'loading') {
+    return 'Loading or not authenticated...'
   }
 
-  const usersQuery = useQuery(["users"], async () => {
-    const data = await superagent.get("/api/users").send({
+  const usersQuery = useQuery(['users'], async () => {
+    const data = await superagent.get('/api/users').send({
       select: {
         id: true,
         name: true,
@@ -44,13 +44,13 @@ function Page() {
           },
         },
       },
-    });
+    })
 
-    return data.body;
-  });
+    return data.body
+  })
 
   if (usersQuery.isLoading) {
-    return <div>loading...</div>;
+    return <div>loading...</div>
   }
 
   return (
@@ -58,10 +58,7 @@ function Page() {
       <AdminLayout title="Users">
         {/* {/* Activity list (smallest breakpoint only) */}
         <div className=" sm:hidden">
-          <ul
-            role="list"
-            className="mt-2 divide-y divide-gray-200 overflow-hidden  sm:hidden"
-          >
+          <ul role="list" className="mt-2 divide-y divide-gray-200 overflow-hidden  sm:hidden">
             {usersQuery?.data &&
               usersQuery.data.map((user) => {
                 return (
@@ -74,13 +71,11 @@ function Page() {
                             <span>{user.name}</span>
                             <span
                               className={classNames(
-                                statusStyles[
-                                  user.emailVerified ? "true" : "false"
-                                ],
-                                "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize"
+                                statusStyles[user.emailVerified ? 'true' : 'false'],
+                                'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize'
                               )}
                             >
-                              {user.emailVerified ? "Verified" : "Not Verified"}
+                              {user.emailVerified ? 'Verified' : 'Not Verified'}
                             </span>
                           </span>
                         </span>
@@ -91,7 +86,7 @@ function Page() {
                       </span>
                     </a>
                   </li>
-                );
+                )
               })}
           </ul>
         </div>
@@ -138,28 +133,24 @@ function Page() {
                             <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
                               <span
                                 className={classNames(
-                                  statusStyles[
-                                    user.emailVerified ? "true" : "false"
-                                  ],
-                                  "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize"
+                                  statusStyles[user.emailVerified ? 'true' : 'false'],
+                                  'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize'
                                 )}
                               >
-                                {user.emailVerified
-                                  ? "Verified"
-                                  : "Not Verified"}
+                                {user.emailVerified ? 'Verified' : 'Not Verified'}
                               </span>
                             </td>
                             <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                               {user?.accounts && user?.accounts?.length > 0 ? (
                                 user.accounts.map((account) => {
-                                  return <p>{account.provider}</p>;
+                                  return <p>{account.provider}</p>
                                 })
                               ) : (
                                 <p>credentials</p>
                               )}
                             </td>
                           </tr>
-                        );
+                        )
                       })}
                   </tbody>
                 </table>
@@ -169,21 +160,21 @@ function Page() {
         </div>
       </AdminLayout>
     </>
-  );
+  )
 }
 
 // Page.auth = true
 
-export default Page;
+export default Page
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getSession(context);
+  const session = await getSession(context)
 
-  if (!session || session?.user?.role !== "admin") {
-    return { redirect: { permanent: false, destination: "/" } };
+  if (!session || session?.user?.role !== 'admin') {
+    return { redirect: { permanent: false, destination: '/' } }
   }
 
   return {
     props: { session: session },
-  };
+  }
 }

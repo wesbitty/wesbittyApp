@@ -27,9 +27,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: ExtendedAppP
   }
 
   useEffect(() => {
-    // `routeChangeComplete` won't run for the first page load unless the query string is
-    // hydrated later on, so here we log a page view if this is the first render and
-    // there's no query string
     if (!router.asPath.includes('?')) {
       telemetry()
     }

@@ -1,13 +1,14 @@
 import NextAuth from 'next-auth'
+import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GitHubProvider from 'next-auth/providers/github'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-
 import { verifyPassword, hashPassword } from '@components/auth/passwords'
 import { Session } from '@components/auth/session'
 import prisma from 'wesbitty/database/index'
 
-export default NextAuth({
+
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   session: {
@@ -150,10 +151,9 @@ export default NextAuth({
     async redirect({ url, baseUrl }) {
       return url.startsWith(baseUrl) ? url : baseUrl
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
-      if (user) {
-        token.id = user.id
-        token.role = user.role
+    async jwt({ token, account }) {
+      if (account) {
+        token.accessToken = account.access_token
       }
 
       return token
@@ -171,4 +171,8 @@ export default NextAuth({
       return sess
     },
   },
-})
+}
+
+
+
+export default NextAuth(authOptions);

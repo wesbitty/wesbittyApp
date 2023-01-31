@@ -4,7 +4,10 @@ type LoaderProps = {
   className?: string
   absoluteFill?: string
 }
+
+
 const Loader = ({ className, absoluteFill }: LoaderProps) => {
+
   return (
     <div
       className={classNames(

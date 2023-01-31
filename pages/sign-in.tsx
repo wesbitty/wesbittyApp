@@ -48,7 +48,7 @@ export default function Page({ csrfToken, providers }) {
       <div className="min-h-screen  flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md text-center py-12">
           <a href="/">
-            <img className="h-16 mx-auto" src="/assets/planet-scale.svg" alt="PlanetScale Logo" />
+            <img className="h-16 mx-auto" src="/logo/wesbitty-light-logo.svg" alt="Wesbitty Logo" />
           </a>
         </div>
         <div className=" flex flex-col justify-center sm:px-6 lg:px-8">

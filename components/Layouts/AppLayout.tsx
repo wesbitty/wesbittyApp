@@ -55,8 +55,8 @@ const AppLayout = (props) => {
                   className="px-4 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 "
                 >
                   <img
-                    className="h-8 w-8 mx-auto"
-                    src="/Logo/wesbitty-light-logo.svg"
+                    className="w-40 mx-auto"
+                    src="/logo/wesbitty-light-logo.svg"
                     alt="Wesbitty Inc Logo"
                   />
                 </button>

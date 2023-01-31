@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "build:app": "prisma generate --schema=./wesbitty/database/schema.prisma && next build",
+    "build:app": "npm run  generate:app && next build",
+    "generate:app": "prisma generate --schema=./wesbitty/database/schema.prisma",
     "export": "next export",
     "start": "next start",
     "lint": "prettier -w .",

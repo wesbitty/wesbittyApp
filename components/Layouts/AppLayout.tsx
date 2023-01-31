@@ -22,8 +22,8 @@ const AppLayout = (props) => {
       href: '/',
     },
     {
-      title: 'Client',
-      href: '/client',
+      title: 'Support',
+      href: '/support',
     },
     {
       title: 'Server',
@@ -56,8 +56,8 @@ const AppLayout = (props) => {
                 >
                   <img
                     className="h-8 w-8 mx-auto"
-                    src="/assets/planet-scale.svg"
-                    alt="PlanetScale Logo"
+                    src="/Logo/wesbitty-light-logo.svg"
+                    alt="Wesbitty Inc Logo"
                   />
                 </button>
                 <div className="flex-1 flex"></div>
@@ -69,7 +69,7 @@ const AppLayout = (props) => {
                           <img
                             className="h-6 w-6 rounded-full"
                             src={session.user.image}
-                            alt="PlanetScale Logo"
+                            alt="Wesbitty Inc Logo"
                           />
                         ) : (
                           <UserIcon className="h-6 w-6 rounded-full" />
@@ -174,8 +174,8 @@ const AppLayout = (props) => {
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">{props.children}</div>
             </div>
           </main>
-        </div>
-        <Footer />
+      <Footer />
+      </div>
       </div>
     </>
   )

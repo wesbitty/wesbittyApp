@@ -25,8 +25,8 @@ const Footer = () => {
                   className="w-40"
                   src={
                     ThemeMode
-                      ? `${basePath}/Logo/wesbitty-dark-logo.svg`
-                      : `${basePath}/Logo/wesbitty-light-logo.svg`
+                      ? `${basePath}/logo/wesbitty-light-logo.svg`
+                      : `${basePath}/logo/wesbitty-dark-logo.svg`
                   }
                   alt="Wesbitty"
                 />
@@ -96,7 +96,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="mt-32 border-t dark:border-dark pt-8 flex justify-between">
+        <div className="mt-10 border-t dark:border-dark pt-8 flex justify-center">
           <p className="mb-0 self-center text-base text-gray-500 dark:text-dark-100">
             &copy; 2023 Wesbitty, Inc.
           </p>

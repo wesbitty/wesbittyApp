@@ -41,7 +41,7 @@ export default function Page({ csrfToken, providers }) {
 
   return (
     <>
-      <Head children={''}>
+      <Head>
         <title>Sign In - Wesbitty Inc</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>

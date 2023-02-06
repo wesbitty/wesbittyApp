@@ -4,8 +4,8 @@ import { useRouter } from 'next/router'
 import { ChevronRightIcon } from '@heroicons/react/solid'
 import { GetServerSidePropsContext } from 'next'
 import classNames from 'classnames'
-import AdminLayout from '@components/Layouts/AdminLayout'
-import { getSession } from '@components/auth/session'
+import AdminLayout from '~/components/Layouts/AdminLayout'
+import { getSession } from '~/components/auth/session'
 import superagent from 'superagent'
 
 const statusStyles = {

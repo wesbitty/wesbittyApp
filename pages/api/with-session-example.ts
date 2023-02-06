@@ -1,4 +1,4 @@
-import { getSession } from '@components/auth/session'
+import { getSession } from '~/components/auth/session'
 
 export default async (req, res) => {
   const session = await getSession({ req })

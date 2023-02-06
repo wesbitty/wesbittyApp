@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import isEmpty from 'lodash/isEmpty'
 import nc from 'next-connect'
-import prisma, { Prisma } from 'wesbitty/database'
-import { getSession } from '@components/auth/session'
+import prisma, { Prisma } from '~/wesbitty/database'
+import { getSession } from '~/components/auth/session'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req })

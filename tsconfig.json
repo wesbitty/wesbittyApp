@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "paths": {
-      "@api/*": ["pages/api/*"],
-      "@components/*": ["components/*"],
-      "@components": ["components/index"],
-      "@db/*": ["wesbitty/database/*"],
-      "@db": ["wesbitty/database/index"]
+      "~/*": ["./*"],
     },
     "target": "es5",
     "module": "esnext",

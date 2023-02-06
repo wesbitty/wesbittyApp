@@ -4,7 +4,7 @@ import Head from 'next/head'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import superagent from 'superagent'
-import prisma from 'wesbitty/database'
+import prisma from '~/wesbitty/database'
 
 const MINIMUM_ACTIVITY_TIMEOUT = 850
 type LoginFormValues = {

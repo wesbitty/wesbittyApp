@@ -1,8 +1,8 @@
 import Container from '../components/Container'
-import AppLayout from '@components/Layouts/AppLayout'
+import AppLayout from '~/components/Layouts/AppLayout'
 import { useSession } from 'next-auth/react'
-import Loader from '@components/Loader'
-import { Metadata } from 'wesbitty/schemas/Metadata'
+import Loader from '~/components/Loader'
+import { Metadata } from '../wesbitty/schemas/Metadata'
 import Link from 'next/link'
 import {
   Button,
@@ -49,7 +49,7 @@ const Page = () => {
       />
       <AppLayout>
         <Container>
-          <SectionContainer className="" children={''}>
+          <SectionContainer className="">
             <div className="text-center">
               <Typography.Title level={2}>Get Support</Typography.Title>
               <Typography.Text>
